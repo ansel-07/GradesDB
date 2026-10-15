@@ -3,6 +3,8 @@ SET FOREIGN_KEY_CHECKS = 0;
 DELETE FROM people;
 DELETE FROM professors;
 DELETE FROM students;
+DELETE FROM degreess;
+DELETE FROM subjects;
 SET FOREIGN_KEY_CHECKS = 1;
 	
 INSERT INTO people (person_id, dni, first_name, last_name, age, email) VALUES
@@ -62,4 +64,41 @@ INSERT INTO students (student_id, access_method) VALUES
     (24, 'Selectividad'),
     (25, 'Selectividad');
 
-SELECT COUNT(*) FROM students;
+INSERT INTO degreess (degree_id, degree_name, duration_years) VALUES
+        (1, 'Ingenier?a del Software', 4),
+        (2, 'Ingenier?a de Computadores', 4),
+        (3, 'Tecnolog?as Inform?ticas', 4);
+
+
+INSERT INTO subjects (
+    subject_id,
+    degree_id,
+    subject_name,
+    acronym,
+    credits,
+    course,
+    subject_type
+) VALUES
+    -- Primer curso (Tecnolog?as Inform?ticas)
+    (1, 3, 'Fundamentos de Programaci?n', 'FP', 12, 1, 'Formaci?n B?sica'),
+    (2, 3, 'C?lculo Infinitesimal y Num?rico', 'CIN', 6, 1, 'Formaci?n B?sica'),
+    (3, 3, 'Circuitos Electr?nicos Digitales', 'CED', 6, 1, 'Formaci?n B?sica'),
+    (4, 3, 'Fundamentos F?sicos de la Inform?tica', 'FFI', 6, 1, 'Formaci?n B?sica'),
+    (5, 3, 'Introducci?n a la Matem?tica Discreta', 'IMD', 6, 1, 'Formaci?n B?sica'),
+    (6, 3, 'Administraci?n de Empresas', 'ADE', 6, 1, 'Formaci?n B?sica'),
+    (7, 3, '?lgebra Lineal y Num?rica', 'ALN', 6, 1, 'Formaci?n B?sica'),
+    (8, 3, 'Estad?stica', 'EST', 6, 1, 'Formaci?n B?sica'),
+    (9, 3, 'Estructura de Computadores', 'EC', 6, 1, 'Formaci?n B?sica'),
+    -- Segundo curso (Tecnolog?as Inform?ticas)
+    (10, 3, 'An?lisis y Dise?o de Datos y Algoritmos', 'ADDA', 12, 2, 'Obligatoria'),
+    (11, 3, 'Introducci?n a la Ingenier?a del Software y los Sistemas de Informaci?n I', 'IISSI-1', 6, 2, 'Obligatoria'),
+    (12, 3, 'Matem?tica Discreta', 'MD', 6, 2, 'Obligatoria'),
+    (13, 3, 'Redes de Computadores', 'RC', 6, 2, 'Obligatoria'),
+    (14, 3, 'Arquitectura de Computadores', 'AC', 6, 2, 'Obligatoria'),
+    (15, 3, 'Introducci?n a la Ingenier?a del Software y los Sistemas de Informaci?n II', 'IISSI-2', 6, 2, 'Obligatoria'),
+    (16, 3, 'Sistemas Operativos', 'SO', 6, 2, 'Obligatoria'),
+    (17, 3, 'Inteligencia Artificial', 'IA', 6, 2, 'Obligatoria');
+    
+    
+SELECT COUNT(*) FROM degreess;
+SELECT COUNT(*) FROM subjects;
