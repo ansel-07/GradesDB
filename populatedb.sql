@@ -5,6 +5,8 @@ DELETE FROM professors;
 DELETE FROM students;
 DELETE FROM degreess;
 DELETE FROM subjects;
+DELETE FROM groups;
+DELETE FROM group_enrollments;
 SET FOREIGN_KEY_CHECKS = 1;
 	
 INSERT INTO people (person_id, dni, first_name, last_name, age, email) VALUES
@@ -99,6 +101,30 @@ INSERT INTO subjects (
     (16, 3, 'Sistemas Operativos', 'SO', 6, 2, 'Obligatoria'),
     (17, 3, 'Inteligencia Artificial', 'IA', 6, 2, 'Obligatoria');
     
+-- IISSI-1 de TI tiene un grupo de teor?a y dos grupos de laboratorio
+INSERT INTO groups (group_id, subject_id, group_name, activity, academic_year) VALUES
+        (1, 11, 'T1', 'Teor?a', 2024),
+        (2, 11, 'L1', 'Laboratorio', 2024),
+        (3, 11, 'L2', 'Laboratorio', 2024);
+
+-- 20 alumnos est?n en el grupo de teor?a
+-- los 10 primeros est?n el L1
+-- los 10 restantes en el L2
+INSERT INTO group_enrollments (student_id, group_id) VALUES
+        -- Teor?a
+        (6, 1), (7, 1), (8, 1), (9, 1), (10, 1),
+        (11, 1), (12, 1), (13, 1), (14, 1), (15, 1),
+        (16, 1), (17, 1), (18, 1), (19, 1), (20, 1),
+        (21, 1), (22, 1), (23, 1), (24, 1), (25, 1),
+        -- Laboratorio L1
+        (6, 2), (7, 2), (8, 2), (9, 2), (10, 2),
+        (11, 2), (12, 2), (13, 2), (14, 2), (15, 2),
+        -- Laboratorio L2
+        (16, 3), (17, 3), (18, 3), (19, 3), (20, 3),
+        (21, 3), (22, 3), (23, 3), (24, 3), (25, 3);
     
-SELECT COUNT(*) FROM degreess;
-SELECT COUNT(*) FROM subjects;
+
+SELECT * FROM groups;
+SELECT COUNT(*) FROM groups;
+SELECT * FROM group_enrollments;
+SELECT COUNT(*) FROM group_enrollments;
