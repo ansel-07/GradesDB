@@ -2,10 +2,10 @@ SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS people;
 DROP TABLE IF EXISTS professors;
 DROP TABLE IF EXISTS students;
-DROP TABLE IF EXISTS degreess;
+DROP TABLE IF EXISTS degrees;
 DROP TABLE IF EXISTS subjects;
 DROP TABLE IF EXISTS groups;
-DROP TABLE IF EXISTS group_enrollments;
+DROP TABLE IF EXISTS students_groups;
 DROP TABLE IF EXISTS grades;
 SET FOREIGN_KEY_CHECKS = 1;
 
@@ -35,7 +35,7 @@ CREATE TABLE students (
    FOREIGN KEY (student_id) REFERENCES people(person_id)
 );
 
-CREATE TABLE degreess (
+CREATE TABLE degrees (
 	degree_id INT AUTO_INCREMENT,
    degree_name VARCHAR(80) NOT NULL,
    duration_years TINYINT NOT NULL,
@@ -51,7 +51,7 @@ CREATE TABLE subjects (
    course TINYINT NOT NULL,
    subject_type VARCHAR(30) NOT NULL,
    PRIMARY KEY (subject_id),
-   FOREIGN KEY (degree_id) REFERENCES degreess(degree_id)
+   FOREIGN KEY (degree_id) REFERENCES degrees(degree_id)
 );
 
 CREATE TABLE groups (
@@ -64,10 +64,12 @@ CREATE TABLE groups (
    FOREIGN KEY (subject_id) REFERENCES subjects(subject_id)
 );
 
-CREATE TABLE group_enrollments (
-	student_id INT,
-   group_id INT,
-   PRIMARY KEY (student_id, group_id),
+CREATE TABLE students_groups (
+	student_group_id INT AUTO_INCREMENT,
+   student_id INT NOT NULL,
+   group_id INT NOT NULL,
+   PRIMARY KEY (student_group_id),
+   CONSTRAINT uq_students_groups UNIQUE (student_id, group_id),
    FOREIGN KEY (student_id) REFERENCES students(student_id),
    FOREIGN KEY (group_id) REFERENCES groups(group_id)
 );

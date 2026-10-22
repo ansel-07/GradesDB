@@ -3,10 +3,10 @@ SET FOREIGN_KEY_CHECKS = 0;
 DELETE FROM people;
 DELETE FROM professors;
 DELETE FROM students;
-DELETE FROM degreess;
+DELETE FROM degrees;
 DELETE FROM subjects;
 DELETE FROM groups;
-DELETE FROM group_enrollments;
+DELETE FROM students_groups;
 DELETE FROM grades;
 SET FOREIGN_KEY_CHECKS = 1;
 	
@@ -67,7 +67,7 @@ INSERT INTO students (student_id, access_method) VALUES
     (24, 'Selectividad'),
     (25, 'Selectividad');
 
-INSERT INTO degreess (degree_id, degree_name, duration_years) VALUES
+INSERT INTO degrees (degree_id, degree_name, duration_years) VALUES
         (1, 'Ingeniería del Software', 4),
         (2, 'Ingeniería de Computadores', 4),
         (3, 'Tecnologías Informáticas', 4);
@@ -111,7 +111,7 @@ INSERT INTO groups (group_id, subject_id, group_name, activity, academic_year) V
 -- 20 alumnos están en el grupo de teoría
 -- los 10 primeros están el L1
 -- los 10 restantes en el L2
-INSERT INTO group_enrollments (student_id, group_id) VALUES
+INSERT INTO students_groups (student_id, group_id) VALUES
         -- Teoría
         (6, 1), (7, 1), (8, 1), (9, 1), (10, 1),
         (11, 1), (12, 1), (13, 1), (14, 1), (15, 1),
