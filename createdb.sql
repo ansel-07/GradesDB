@@ -108,3 +108,34 @@ CREATE TABLE teaching_loads (
    FOREIGN KEY (group_id) REFERENCES groups(group_id),
    CONSTRAINT uq_teaching_loads UNIQUE (professor_id, group_id)
 );
+
+
+
+-- LABORATORIO 2
+
+-- ALTER TABLE nombre_tabla
+--	  ADD CONSTRAINT restriccion1 TIPO (...),
+--   ADD CONSTRAINT restriccion2 TIPO (...);
+
+-- CHECK x BETWEEN a AND b
+
+-- CHECK texto REGEXP 'expresion regular'
+/* '^' inicio del texto
+-- '$' fin del texto
+-- '[0-9]' dígito
+-- '[0-9]{n}' n dígitos
+-- '[A-Za-z]' letra mayúscula o minúscula
+*/
+
+-- Convención para nombrar restricciones:
+-- CHECK: ck_nombre_tabla_regla_atributo
+-- UNIQUE: uq_nombre_tabla_regla_atributo
+-- ENUM: 
+-- NOT NULL: 
+
+
+ALTER TABLE people
+	ADD CONSTRAINT ck_people_rn12_age CHECK (age BETWEEN 16 and 70),
+   ADD CONSTRAINT ck_people_rn14_dni CHECK (dni REGEXP '^[0-9]{8}[A-Za-z]$'),
+   ADD CONSTRAINT uq_people_dni UNIQUE (dni),
+   ADD CONSTRAINT uq_people_email UNIQUE (email);
