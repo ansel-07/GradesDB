@@ -147,7 +147,7 @@ ALTER TABLE students
 	ADD CONSTRAINT ck_students_access_method CHECK (access_method IN ('Selectividad', 'Ciclo', 'Mayor', 'Titulado', 'Extranjero'));
    
 ALTER TABLE degrees
-	ADD CONSTRAINT ck_degrees_rn13_duration CHECK(duration_years BETWEEN 3 AND 6),
+	ADD CONSTRAINT ck_degrees_rn13_duration CHECK (duration_years BETWEEN 3 AND 6),
    ADD CONSTRAINT uq_degrees_name UNIQUE (degree_name);
    
 ALTER TABLE subjects
@@ -156,3 +156,9 @@ ALTER TABLE subjects
    ADD CONSTRAINT ck_subjects_type CHECK (subject_type IN ('Formación Básica', 'Obligatoria', 'Optativa')),
    ADD CONSTRAINT uq_subjects_name UNIQUE (subject_name),
    ADD CONSTRAINT uq_subjects_acronym UNIQUE (acronym);
+   
+ALTER TABLE groups
+	ADD CONSTRAINT ck_groups_rn15_year CHECK (academic_year BETWEEN 2000 and 2100),
+   ADD CONSTRAINT ck_groups_activity CHECK (activity IN ('Teoría', 'Laboratorio')),
+   ADD CONSTRAINT uq_groups_name UNIQUE (subject_id, group_name, academic_year);
+   
