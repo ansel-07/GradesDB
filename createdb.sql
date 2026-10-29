@@ -129,13 +129,19 @@ CREATE TABLE teaching_loads (
 
 -- Convención para nombrar restricciones:
 -- CHECK: ck_nombre_tabla_regla_atributo
+-- 		tipos de check: UNIQUE, NOT NULL, IN...
 -- UNIQUE: uq_nombre_tabla_regla_atributo
--- ENUM: 
--- NOT NULL: 
 
 
 ALTER TABLE people
-	ADD CONSTRAINT ck_people_rn12_age CHECK (age BETWEEN 16 and 70),
+	ADD CONSTRAINT ck_people_rn12_age CHECK (age BETWEEN 16 AND 70),
    ADD CONSTRAINT ck_people_rn14_dni CHECK (dni REGEXP '^[0-9]{8}[A-Za-z]$'),
    ADD CONSTRAINT uq_people_dni UNIQUE (dni),
    ADD CONSTRAINT uq_people_email UNIQUE (email);
+   
+
+ALTER TABLE professors
+	ADD CONSTRAINT ck_professors_category CHECK (category IN ('Ayudante', 'AyudanteDoctor', 'Titular', 'Catedrático'));
+
+ALTER TABLE students
+	ADD CONSTRAINT ck_students_access_method CHECK (access_method IN ('Selectividad', 'Ciclo', 'Mayor', 'Titulado', 'Extranjero'));
