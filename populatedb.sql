@@ -9,6 +9,7 @@ DELETE FROM groups;
 DELETE FROM students_groups;
 DELETE FROM grades;
 DELETE FROM students_subjects;
+DELETE FROM teaching_loads;
 SET FOREIGN_KEY_CHECKS = 1;
 	
 INSERT INTO people (person_id, dni, first_name, last_name, age, email) VALUES
@@ -69,9 +70,9 @@ INSERT INTO students (student_id, access_method) VALUES
     (25, 'Selectividad');
 
 INSERT INTO degrees (degree_id, degree_name, duration_years) VALUES
-        (1, 'Ingeniería del Software', 4),
-        (2, 'Ingeniería de Computadores', 4),
-        (3, 'Tecnologías Informáticas', 4);
+    (1, 'Ingeniería del Software', 4),
+    (2, 'Ingeniería de Computadores', 4),
+    (3, 'Tecnologías Informáticas', 4);
 
 
 INSERT INTO subjects (
@@ -105,25 +106,25 @@ INSERT INTO subjects (
     
 -- IISSI-1 de TI tiene un grupo de teoría y dos grupos de laboratorio
 INSERT INTO groups (group_id, subject_id, group_name, activity, academic_year) VALUES
-        (1, 11, 'T1', 'Teoría', 2024),
-        (2, 11, 'L1', 'Laboratorio', 2024),
-        (3, 11, 'L2', 'Laboratorio', 2024);
+    (1, 11, 'T1', 'Teoría', 2024),
+    (2, 11, 'L1', 'Laboratorio', 2024),
+    (3, 11, 'L2', 'Laboratorio', 2024);
 
 -- 20 alumnos están en el grupo de teoría
 -- los 10 primeros están el L1
 -- los 10 restantes en el L2
 INSERT INTO students_groups (student_id, group_id) VALUES
-        -- Teoría
-        (6, 1), (7, 1), (8, 1), (9, 1), (10, 1),
-        (11, 1), (12, 1), (13, 1), (14, 1), (15, 1),
-        (16, 1), (17, 1), (18, 1), (19, 1), (20, 1),
-        (21, 1), (22, 1), (23, 1), (24, 1), (25, 1),
-        -- Laboratorio L1
-        (6, 2), (7, 2), (8, 2), (9, 2), (10, 2),
-        (11, 2), (12, 2), (13, 2), (14, 2), (15, 2),
-        -- Laboratorio L2
-        (16, 3), (17, 3), (18, 3), (19, 3), (20, 3),
-        (21, 3), (22, 3), (23, 3), (24, 3), (25, 3);
+    -- Teoría
+    (6, 1), (7, 1), (8, 1), (9, 1), (10, 1),
+    (11, 1), (12, 1), (13, 1), (14, 1), (15, 1),
+    (16, 1), (17, 1), (18, 1), (19, 1), (20, 1),
+    (21, 1), (22, 1), (23, 1), (24, 1), (25, 1),
+    -- Laboratorio L1
+    (6, 2), (7, 2), (8, 2), (9, 2), (10, 2),
+    (11, 2), (12, 2), (13, 2), (14, 2), (15, 2),
+    -- Laboratorio L2
+    (16, 3), (17, 3), (18, 3), (19, 3), (20, 3),
+    (21, 3), (22, 3), (23, 3), (24, 3), (25, 3);
     
 
 INSERT INTO grades (grade_id, student_id, group_id, grade_value, exam_call, with_honors) VALUES
@@ -168,10 +169,15 @@ INSERT INTO grades (grade_id, student_id, group_id, grade_value, exam_call, with
 
     
 INSERT INTO students_subjects (student_id, subject_id) VALUES
-        (6, 11), (7, 11), (8, 11), (9, 11), (10, 11),
-        (11, 11), (12, 11), (13, 11), (14, 11), (15, 11),
-        (16, 11), (17, 11), (18, 11), (19, 11), (20, 11),
-        (21, 11), (22, 11), (23, 11), (24, 11), (25, 11);
+    (6, 11), (7, 11), (8, 11), (9, 11), (10, 11),
+    (11, 11), (12, 11), (13, 11), (14, 11), (15, 11),
+    (16, 11), (17, 11), (18, 11), (19, 11), (20, 11),
+    (21, 11), (22, 11), (23, 11), (24, 11), (25, 11);
 
 
-
+INSERT INTO teaching_loads (professor_id, group_id, credits) VALUES
+    (1, 1, 3.0),
+    (2, 1, 3.0),
+    (3, 2, 3.0),
+    (5, 3, 1.5),
+    (4, 3, 1.5);
