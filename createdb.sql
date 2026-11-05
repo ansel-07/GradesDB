@@ -158,7 +158,15 @@ ALTER TABLE subjects
    ADD CONSTRAINT uq_subjects_acronym UNIQUE (acronym);
    
 ALTER TABLE groups
-	ADD CONSTRAINT ck_groups_rn15_year CHECK (academic_year BETWEEN 2000 and 2100),
+	ADD CONSTRAINT ck_groups_rn15_year CHECK (academic_year BETWEEN 2000 AND 2100),
    ADD CONSTRAINT ck_groups_activity CHECK (activity IN ('Teoría', 'Laboratorio')),
    ADD CONSTRAINT uq_groups_name UNIQUE (subject_id, group_name, academic_year);
+   
+ALTER TABLE teaching_loads
+	ADD CONSTRAINT ck_teaching_loads_credits CHECK (credits > 0);
+   
+ALTER TABLE grades
+	ADD CONSTRAINT ck_grades_rn11_grade_value CHECK (grade_value BETWEEN 0 AND 10),
+   ADD CONSTRAINT ck_grades_rn01_with_honors CHECK (with_honors = 0 OR grade_value >= 9),
+   ADD CONSTRAINT ck_grades_exam_call CHECK (exam_call IN ('Primera', 'Segunda', 'Tercera', 'Extraordinaria'));
    
