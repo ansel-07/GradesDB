@@ -45,10 +45,16 @@ WHERE ...;
 */
 
 -- Consulta 5: Estudiantes con JOIN
-
+SELECT p.first_name, p.last_name, s.access_method
+FROM students s
+JOIN people p ON s.student_id = p.person_id
+WHERE s.access_method = 'Selectividad';
 
 -- Consulta 6: Profesores por categoría
-
+SELECT p.first_name, p.last_name, prof.category 
+FROM professors prof
+JOIN people p ON prof.professor_id = p.person_id
+WHERE prof.category = 'Catedrático';
 
 
 
