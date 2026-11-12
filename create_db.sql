@@ -1,3 +1,11 @@
+--
+-- create_db.sql: grades_db structure (L1) and integrity constraints (L2)
+--
+
+DROP DATABASE IF EXISTS grades_db;
+CREATE DATABASE grades_db;
+USE grades_db;
+
 SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS people;
 DROP TABLE IF EXISTS professors;
@@ -166,7 +174,7 @@ ALTER TABLE teaching_loads
 	ADD CONSTRAINT ck_teaching_loads_credits CHECK (credits > 0);
    
 ALTER TABLE grades
-	ADD CONSTRAINT ck_grades_rn11_grade_value CHECK (grade_value BETWEEN 0 AND 10),
+	ADD CONSTRAINT ck_grades_rn11_value CHECK (grade_value BETWEEN 0 AND 10),
    ADD CONSTRAINT ck_grades_rn01_with_honors CHECK (with_honors = 0 OR grade_value >= 9),
    ADD CONSTRAINT ck_grades_exam_call CHECK (exam_call IN ('Primera', 'Segunda', 'Tercera', 'Extraordinaria'));
    

@@ -1,3 +1,9 @@
+--
+-- populate_db.sql: initial data for grades_db (L1)
+--
+
+USE grades_db;
+
  -- Primero eliminados todos los datos de tabla en el caso de que los hubiese y después insertamos los datos iniciales.
 SET FOREIGN_KEY_CHECKS = 0;
 DELETE FROM people;
