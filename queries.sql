@@ -381,26 +381,62 @@ GROUP BY stg.first_name, stg.last_name, stg.person_id;
 -- ORDER BY, LIMIT y OFFSET: Control de resultados
 -- ============================================================================
 
--- Consulta 30: Ordenación ascendente
+/*
+Ordenar por varios criterios:
+ORDER BY p.age DESC, p.last_name ASC
 
+Devolver un número limitado de filas
+o saltarse filas:
+ORDER BY ...
+LIMIT n -- devuelve las n primeras filas
+LIMIT n OFFSET k -- se salta las k primeras 
+						y devuelve las n siguientes
+
+El orden entre filas con el mismo valor en todas
+las columnas del ORDER BY queda sin definir,
+puede devolver cualquier orden. Por tanto,
+podría cortar en medio de un empate.
+*/
+
+-- Consulta 30: Ordenación ascendente
+SELECT grade_id, student_id, grade_value, exam_call
+FROM grades
+ORDER BY grade_value;
 
 -- Consulta 31: Ordenación descendente
-
+SELECT grade_id, student_id, grade_value, exam_call
+FROM grades
+ORDER BY grade_value DESC;
 
 -- Consulta 32: Limitación de resultados
-
+SELECT grade_id, student_id, grade_value, exam_call
+FROM grades
+ORDER BY grade_value DESC
+LIMIT 5;
 
 -- Consulta 33: Ordenación múltiple
-
+SELECT p.first_name, p.last_name, gr.grade_value, gr.exam_call
+FROM grades gr
+JOIN people p ON p.person_id = gr.student_id
+WHERE gr.grade_value >= 5
+ORDER BY p.last_name, p.first_name;
 
 -- Consulta 34: Paginación básica
-
+SELECT grade_id, student_id, grade_value
+FROM grades
+ORDER BY grade_value DESC
+LIMIT 5 OFFSET 5;
 
 -- Consulta 35: Tercera página
-
+SELECT grade_id, student_id, grade_value
+FROM grades
+ORDER BY grade_value DESC
+LIMIT 5 OFFSET 10;
 
 -- Consulta 36: Ordenación con criterios mixtos
-
+SELECT group_name, activity, academic_year
+FROM groups
+ORDER BY academic_year DESC, group_name ASC;
 
 
 
