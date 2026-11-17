@@ -415,11 +415,11 @@ ORDER BY grade_value DESC
 LIMIT 5;
 
 -- Consulta 33: Ordenación múltiple
-SELECT p.first_name, p.last_name, gr.grade_value, gr.exam_call
-FROM grades gr
-JOIN people p ON p.person_id = gr.student_id
-WHERE gr.grade_value >= 5
-ORDER BY p.last_name, p.first_name;
+SELECT st.first_name, st.last_name, g.grade_value, g.exam_call
+FROM grades g
+JOIN v_students st ON st.student_id = g.student_id
+WHERE g.grade_value >= 5
+ORDER BY st.last_name, st.first_name;
 
 -- Consulta 34: Paginación básica
 SELECT grade_id, student_id, grade_value
@@ -444,23 +444,88 @@ ORDER BY academic_year DESC, group_name ASC;
 -- JOIN: Consultas avanzadas con múltiples tablas
 -- ============================================================================
 
--- Consulta 37: JOIN con tabla intermedia
+/*
+SELECT s.subject_name, gr.group_name
+FROM subjects s
+LEFT JOIN groups gr ON s.subject_id = gr.subject_id;
 
+Las asignaturas que tienen grupos aparecen una vez por cada
+grupo, y las asignaturas que no tienen grupo aparecen una
+vez, con group_name = NULL.
+*/
+
+-- Consulta 37: JOIN con tabla intermedia
+SELECT 
+	st.first_name, 
+   st.last_name, 
+   gr.group_name, 
+   gr.activity, 
+   gr.academic_year
+FROM v_students st
+JOIN students_groups sg ON st.student_id = sg.student_id
+JOIN groups gr ON sg.group_id = gr.group_id;
 
 -- Consulta 38: JOIN uno a muchos
-
+SELECT
+	d.degree_name,
+   s.subject_name,
+   s.acronym,
+   s.credits,
+   s.course,
+   s.subject_type
+FROM subjects s
+JOIN degrees d ON s.degree_id = d.degree_id
+ORDER BY d.degree_name, s.course;
 
 -- Consulta 39: JOIN múltiple
-
+SELECT
+	st.first_name,
+   st.last_name,
+   s.subject_name,
+   s.acronym,
+   g.grade_value,
+   g.exam_call,
+   gr.academic_year
+FROM v_students st
+JOIN grades g ON st.student_id = g.student_id
+JOIN groups gr ON g.group_id = gr.group_id
+JOIN subjects s ON gr.subject_id = s.subject_id;
 
 -- Consulta 40: JOIN con una vista
-
+SELECT
+	pr.first_name,
+   pr.last_name,
+   pr.category,
+   s.subject_name,
+   gr.group_name,
+   gr.activity,
+   tl.credits AS teaching_credits
+FROM v_professors pr
+JOIN teaching_loads tl ON pr.professor_id = tl.professor_id
+JOIN groups gr ON tl.group_id = gr.group_id
+JOIN subjects s ON gr.subject_id = s.subject_id;
 
 -- Consulta 41: DISTINCT con JOIN
-
+SELECT DISTINCT
+	st.first_name,
+   st.last_name,
+   s.subject_name,
+   s.acronym,
+   gr.academic_year
+FROM v_students st
+JOIN students_groups sg ON st.student_id = sg.student_id
+JOIN groups gr ON sg.group_id = gr.group_id
+JOIN subjects s ON gr.subject_id = s.subject_id
+ORDER BY st.last_name, s.subject_name;
 
 -- Consulta 42: LEFT JOIN
-
+SELECT
+	st.first_name,
+   st.last_name,
+   g.grade_value,
+   g.exam_call
+FROM v_students st
+LEFT JOIN grades g ON st.student_id = g.student_id;
 
 
 
