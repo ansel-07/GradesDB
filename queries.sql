@@ -279,10 +279,15 @@ WHERE first_name LIKE '_____';
 -- ============================================================================
 
 -- Consulta 26: Filtro por año
-
+SELECT group_id, group_name, activity, academic_year
+FROM groups
+WHERE academic_year = 2024;
 
 -- Consulta 27: Rango de años
-
+SELECT group_id, group_name, activity, academic_year
+FROM groups
+WHERE academic_year BETWEEN 2020 AND 2023
+ORDER BY academic_year;
 
 
 
