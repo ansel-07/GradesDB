@@ -266,7 +266,7 @@ WHERE dni LIKE '%A';
 -- Consulta 24: Inicio de cadena
 SELECT subject_name
 FROM subjects
-WHERE subject_name LIKE 'Fundamentos%';
+WHERE subject_name LIKE 'Fundamentos %';
 
 -- Consulta 25: Longitud exacta
 SELECT first_name, last_name
