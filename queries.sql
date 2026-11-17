@@ -623,11 +623,33 @@ GROUP BY pr.professor_id, pr.first_name, pr.last_name, pr.category;
 -- HAVING: Filtrado de grupos
 -- ============================================================================
 
--- Consulta 51: Filtro por agregado
+/*
+SELECT ...
+FROM ...
+WHERE condicion_sobre_filas
+GROUP BY ...
+HAVING condicion_sobre_grupos
+ORDER BY ...;
+*/
 
+-- Consulta 51: Filtro por agregado
+SELECT
+	st.first_name,
+   st.last_name,
+   AVG(g.grade_value) AS average_grade
+FROM v_students st
+JOIN grades g ON st.student_id = g.student_id
+GROUP BY st.student_id, st.first_name, st.last_name
+HAVING AVG(g.grade_value) > 7;
 
 -- Consulta 52: Conteo con umbral
-
+SELECT
+	s.subject_name,
+   COUNT(*) AS total_groups
+FROM groups gr
+JOIN subjects s ON gr.subject_id = s.subject_id
+GROUP BY s.subject_id, s.subject_name
+HAVING COUNT(*) > 3;
 
 -- Consulta 53: Filtro de tamaño de grupo
 
