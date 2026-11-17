@@ -137,7 +137,7 @@ SELECT COUNT(*) AS num_students
 FROM students;
 
 -- Consulta 10: Contar con agrupación básica
-SELECT COUNT(*) AS num_groups
+SELECT g.activity, COUNT(*) AS num_groups
 FROM groups g
 GROUP BY g.activity;
 
@@ -156,16 +156,24 @@ FROM grades g;
 -- ============================================================================
 
 -- Consulta 13: OR lógico
-
+SELECT *
+FROM grades g
+WHERE (g.grade_value < 5) OR (g.grade_value > 9);
 
 -- Consulta 14: BETWEEN
-
+SELECT *
+FROM grades g
+WHERE (g.grade_value BETWEEN 5 AND 7);
 
 -- Consulta 15: IN
-
+SELECT *
+FROM subjects s
+WHERE (s.credits IN (6, 12));
 
 -- Consulta 16: Rango de edad
-
+SELECT *
+FROM people p
+WHERE (p.age BETWEEN 20 AND 30);
 
 
 
