@@ -247,15 +247,31 @@ WHERE s.credits > (
 -- Patrones con LIKE
 -- ============================================================================
 
--- Consulta 23: Terminación de cadena
+/*
+'=' compara con un valor exacto.
+'LIKE' compara con un patrón:
+	-> '%' significa cualquier secuencia de
+   	caracteres, incluida la vacía.
+      Ej: 'IISSI%'
+   -> '_' significa exactamente un carácter
+   	cualquiera.
+      Ej: '_C'
+*/
 
+-- Consulta 23: Terminación de cadena
+SELECT first_name, last_name, dni
+FROM people
+WHERE dni LIKE '%A';
 
 -- Consulta 24: Inicio de cadena
-
+SELECT subject_name
+FROM subjects
+WHERE subject_name LIKE 'Fundamentos%';
 
 -- Consulta 25: Longitud exacta
-
-
+SELECT first_name, last_name
+FROM people
+WHERE first_name LIKE '_____';
 
 
 -- ============================================================================
