@@ -103,23 +103,51 @@ JOIN people p ON st.student_id = p.person_id;
 -- Funciones agregadas
 -- ============================================================================
 
--- Consulta 7: Media de notas
+/*
+COUNT(*): cuenta cuántas filas hay
+SUM(col): suma los valores de la columna
+AVG(col): hace la media de la columna
+MAX(col): da el máximo de la columna
+MIN(col): da el mínimo de la columna
 
+Alias de columna:
+SELECT AVG(s.credits) AS avg_credits
+FROM subjects s;
+
+Agrupar por tipos:
+SELECT columna, COUNT(*)
+FROM tabla
+GROUP BY columna;
+-- Devuelve una fila por cada valor
+-- distinto de la columna
+*/
+
+-- Consulta 7: Media de notas
+SELECT AVG(g.grade_value) AS avg_grades
+FROM grades g
+WHERE g.group_id = 1;
 
 -- Consulta 8: Suma de créditos
-
+SELECT SUM(s.credits) AS sum_credits
+FROM subjects s
+WHERE s.degree_id = 3;
 
 -- Consulta 9: Contar registros
-
+SELECT COUNT(*) AS num_students
+FROM students;
 
 -- Consulta 10: Contar con agrupación básica
-
+SELECT COUNT(*) AS num_groups
+FROM groups g
+GROUP BY g.activity;
 
 -- Consulta 11: Valor máximo
-
+SELECT MAX(g.grade_value) AS max_grade
+FROM grades g;
 
 -- Consulta 12: Valor mínimo
-
+SELECT MIN(g.grade_value) AS min_grade
+FROM grades g;
 
 
 
