@@ -207,14 +207,39 @@ ORDER BY g.academic_year DESC;
 -- Subconsultas
 -- ============================================================================
 
--- Consulta 20: Agregado filtrado
+/*
+Subconsulta que devuelve un solo valor:
+SELECT p.first_name, p.age
+FROM people p
+WHERE p.age > (SELECT AVG(p2.age) FROM people p2);
 
+Subconsulta que devuelve una columna con varios valores:
+SELECT s.subject_name
+FROM subjects s
+WHERE s.degree_id IN (SELECT d.degree_id FROM degrees d WHERE d.duration_years = 4);
+*/
+
+-- Consulta 20: Agregado filtrado
+SELECT MAX(g.grade_value)
+FROM grades g
+WHERE g.student_id = 6;
 
 -- Consulta 21: IN con subconsulta
-
+SELECT ge.student_id
+FROM students_groups ge
+WHERE ge.group_id IN (
+	SELECT g.group_id
+   FROM groups g
+   WHERE g.academic_year = 2024
+);
 
 -- Consulta 22: Comparación con agregado
-
+SELECT *
+FROM subjects s
+WHERE s.credits > (
+	SELECT AVG(s2.credits)
+   FROM subjects s2
+);
 
 
 
