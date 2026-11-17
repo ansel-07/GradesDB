@@ -45,16 +45,16 @@ WHERE ...;
 */
 
 -- Consulta 5: Estudiantes con JOIN
-SELECT p.first_name, p.last_name, s.access_method
-FROM students s
-JOIN people p ON s.student_id = p.person_id
-WHERE s.access_method = 'Selectividad';
+SELECT p.first_name, p.last_name, st.access_method
+FROM students st
+JOIN people p ON st.student_id = p.person_id
+WHERE st.access_method = 'Selectividad';
 
 -- Consulta 6: Profesores por categoría
-SELECT p.first_name, p.last_name, prof.category 
-FROM professors prof
-JOIN people p ON prof.professor_id = p.person_id
-WHERE prof.category = 'Catedrático';
+SELECT p.first_name, p.last_name, pr.category 
+FROM professors pr
+JOIN people p ON pr.professor_id = p.person_id
+WHERE pr.category = 'Catedrático';
 
 
 
@@ -62,11 +62,40 @@ WHERE prof.category = 'Catedrático';
 -- Vistas: Simplificando consultas complejas
 -- ============================================================================
 
--- Vista v_professors
+/*
+CREATE OR REPLACE VIEW nombre_vista AS
+SELECT ...
+FROM ...;
 
+
+SELECT * FROM nombre_vista WHERE ...;
+*/
+
+-- Vista v_professors
+CREATE OR REPLACE VIEW v_professors AS
+SELECT 
+	pr.professor_id, 
+   p.dni, 
+   p.first_name, 
+	p.last_name, 
+   p.age, 
+   p.email, 
+   pr.category
+FROM professors pr
+JOIN people p ON pr.professor_id = p.person_id;
 
 -- Vista v_students
-
+CREATE OR REPLACE VIEW v_students AS
+SELECT 
+	st.student_id, 
+   p.dni, 
+   p.first_name,
+	p.last_name, 
+   p.age, 
+   p.email, 
+   st.access_method
+FROM students st
+JOIN people p ON st.student_id = p.person_id;
 
 
 
