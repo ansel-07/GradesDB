@@ -652,10 +652,25 @@ GROUP BY s.subject_id, s.subject_name
 HAVING COUNT(*) > 3;
 
 -- Consulta 53: Filtro de tamaño de grupo
-
+SELECT
+	gr.group_name,
+   gr.activity,
+   COUNT(*) AS total_students
+FROM groups gr
+JOIN students_groups sg ON gr.group_id = sg.group_id
+GROUP BY gr.group_id, gr.group_name, gr.activity
+HAVING COUNT(*) > 15;
 
 -- Consulta 54: Promedio con filtro
-
+SELECT
+	s.subject_name,
+   AVG(g.grade_value) AS average_grade,
+   COUNT(*) AS total_grades
+FROM grades g
+JOIN groups gr ON g.group_id = gr.group_id
+JOIN subjects s ON gr.subject_id = s.subject_id
+GROUP BY s.subject_id, s.subject_name
+HAVING AVG(g.grade_value) > 5.5;
 
 
 
