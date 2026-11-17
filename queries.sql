@@ -181,14 +181,25 @@ WHERE (p.age BETWEEN 20 AND 30);
 -- DISTINCT: Eliminación de duplicados
 -- ============================================================================
 
--- Consulta 17: Nombres únicos de grupos
+/*
+SELECT DISTINCT columnas ...;
 
+ORDER BY columna -- menor a mayor
+ORDER BY columna DESC -- mayor a menor
+*/
+
+-- Consulta 17: Nombres únicos de grupos
+SELECT DISTINCT g.group_name
+FROM groups g;
 
 -- Consulta 18: Tipos de asignatura
-
+SELECT DISTINCT s.subject_type
+FROM subjects s;
 
 -- Consulta 19: Años académicos
-
+SELECT DISTINCT g.academic_year
+FROM groups g
+ORDER BY g.academic_year DESC;
 
 
 
