@@ -533,29 +533,88 @@ LEFT JOIN grades g ON st.student_id = g.student_id;
 -- GROUP BY: Agrupación y agregación
 -- ============================================================================
 
--- Consulta 43: Agregación por grupo
+/*
+Orden de ejecución de una consulta:
+1. FROM, JOIN
+2. WHERE
+3. GROUP BY
+4. Funciones agregadas (una vez por grupo)
+5. SELECT
+6. ORDER BY, LIMIT
+*/
 
+-- Consulta 43: Agregación por grupo
+SELECT
+	st.first_name,
+   st.last_name,
+   AVG(g.grade_value) AS average_grade,
+   COUNT(*) AS total_grades
+FROM v_students st
+JOIN grades g ON st.student_id = g.student_id
+GROUP BY st.student_id, st.first_name, st.last_name;
 
 -- Consulta 44: Conteo por categoría
-
+SELECT
+	st.access_method,
+   COUNT(*) AS total_students
+FROM students st
+GROUP BY st.access_method;
 
 -- Consulta 45: Agregación con JOIN
-
+SELECT
+	d.degree_name,
+   COUNT(*) AS total_groups
+FROM subjects s
+JOIN degrees d ON s.degree_id = d.degree_id
+GROUP BY d.degree_id, d.degree_name;
 
 -- Consulta 46: Conteo por entidad
-
+SELECT
+	s.subject_name,
+   s.acronym,
+   COUNT(*) AS total_groups
+FROM groups gr
+JOIN subjects s ON gr.subject_id = s.subject_id
+GROUP BY s.subject_id, s.subject_name, s.acronym;
 
 -- Consulta 47: Promedio por categoría
-
+SELECT
+	g.exam_call,
+   AVG(g.grade_value) AS average_grade,
+   COUNT(*) AS total_grades
+FROM grades g
+GROUP BY g.exam_call;
 
 -- Consulta 48: Agrupación múltiple
-
+SELECT
+	s.subject_name,
+   g.exam_call,
+   AVG(g.grade_value) AS average_grade,
+   COUNT(*) AS total_grades
+FROM grades g
+JOIN groups gr ON g.group_id = gr.group_id
+JOIN subjects s ON gr.subject_id = s.subject_id
+GROUP BY g.exam_call, s.subject_name
+ORDER BY s.subject_name, g.exam_call;
 
 -- Consulta 49: COUNT DISTINCT
-
+SELECT
+	gr.academic_year,
+   COUNT(DISTINCT st.student_id) AS total_students
+FROM students st
+JOIN students_groups sg ON st.student_id = sg.student_id
+JOIN groups gr ON sg.group_id = gr.group_id
+GROUP BY gr.academic_year;
 
 -- Consulta 50: Suma por grupo
-
+SELECT
+	pr.first_name,
+   pr.last_name,
+   pr.category,
+   SUM(tl.credits) AS total_credits
+FROM v_professors pr
+JOIN teaching_loads tl ON pr.professor_id = tl.professor_id
+GROUP BY pr.professor_id, pr.first_name, pr.last_name, pr.category;
 
 
 
