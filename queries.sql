@@ -563,7 +563,7 @@ GROUP BY st.access_method;
 -- Consulta 45: Agregación con JOIN
 SELECT
 	d.degree_name,
-   COUNT(*) AS total_groups
+   COUNT(*) AS total_subjects
 FROM subjects s
 JOIN degrees d ON s.degree_id = d.degree_id
 GROUP BY d.degree_id, d.degree_name;
@@ -604,7 +604,8 @@ SELECT
 FROM students st
 JOIN students_groups sg ON st.student_id = sg.student_id
 JOIN groups gr ON sg.group_id = gr.group_id
-GROUP BY gr.academic_year;
+GROUP BY gr.academic_year
+ORDER BY gr.academic_year DESC;
 
 -- Consulta 50: Suma por grupo
 SELECT
