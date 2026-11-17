@@ -296,23 +296,85 @@ ORDER BY academic_year;
 -- ============================================================================
 
 -- Vista v_grades_with_honors
-
+CREATE OR REPLACE VIEW v_grades_with_honors AS
+SELECT 
+	grade_id, 
+   student_id, 
+   group_id,
+   grade_value,
+   exam_call
+FROM grades
+WHERE with_honors = 1;
 
 -- Vista v_student_grades
-
+CREATE OR REPLACE VIEW v_student_grades AS
+SELECT
+	p.person_id,
+   p.first_name,
+   p.last_name,
+   p.dni,
+   g.grade_value,
+   g.exam_call,
+   g.with_honors,
+   gr.group_name,
+   gr.activity,
+   gr.academic_year,
+   s.subject_name,
+   s.acronym,
+   s.credits
+FROM students st
+JOIN people p ON st.student_id = p.person_id
+JOIN grades g ON st.student_id = g.student_id
+JOIN groups gr ON g.group_id = gr.group_id
+JOIN subjects s ON gr.subject_id = s.subject_id;
 
 -- Vista v_professor_loads
-
+CREATE OR REPLACE VIEW v_professor_loads AS
+SELECT
+	p.person_id,
+   p.first_name,
+   p.last_name,
+   pr.category,
+   tl.credits AS teaching_credits,
+   gr.group_name,
+   gr.activity,
+   gr.academic_year,
+   s.subject_name,
+   s.acronym
+FROM professors pr
+JOIN people p ON pr.professor_id = p.person_id
+JOIN teaching_loads tl ON pr.professor_id = tl.professor_id
+JOIN groups gr ON tl.group_id = gr.group_id
+JOIN subjects s ON gr.subject_id = s.subject_id;
 
 -- Vista v_degree_students
-
+CREATE OR REPLACE VIEW v_degree_students AS
+SELECT DISTINCT
+	d.degree_id,
+   d.degree_name,
+   p.person_id,
+   p.first_name,
+   p.last_name,
+   st.access_method,
+   gr.academic_year
+FROM students st
+JOIN people p ON st.student_id = p.person_id
+JOIN students_groups sg ON st.student_id = sg.student_id
+JOIN groups gr ON sg.group_id = gr.group_id
+JOIN subjects s ON gr.subject_id = s.subject_id
+JOIN degrees d ON s.degree_id = d.degree_id;
 
 -- Consulta 28: Uso de vistas
-
+SELECT COUNT(*) AS total_honors
+FROM v_grades_with_honors;
 
 -- Consulta 29: Agregación sobre vista
-
-
+SELECT
+	stg.first_name, 
+   stg.last_name, 
+   AVG(stg.grade_value) AS average_grade
+FROM v_student_grades stg
+GROUP BY stg.first_name, stg.last_name, stg.person_id;
 
 
 -- ============================================================================
