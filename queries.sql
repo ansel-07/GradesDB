@@ -679,18 +679,75 @@ HAVING AVG(g.grade_value) > 5.5;
 -- ============================================================================
 
 -- Consulta 55: Top N con filtros
-
+SELECT
+	s.subject_name,
+   COUNT(DISTINCT sg.student_id) AS total_students
+FROM students_groups sg
+JOIN groups gr ON sg.group_id = gr.group_id
+JOIN subjects s ON gr.subject_id = s.subject_id
+WHERE gr.academic_year = 2024
+GROUP BY s.subject_id, s.subject_name
+ORDER BY total_students DESC, s.subject_name ASC
+LIMIT 3;
 
 -- Consulta 56: Condición especial con agregado
-
+SELECT
+	st.first_name,
+   st.last_name,
+   COUNT(*) AS total_honors
+FROM v_students st
+JOIN grades g ON st.student_id = g.student_id
+WHERE g.with_honors = 1
+GROUP BY st.student_id, st.first_name, st.last_name
+HAVING total_honors > 1;
 
 -- Consulta 57: Ranking con múltiples JOIN
-
+SELECT
+	d.degree_name,
+   COUNT(DISTINCT sg.student_id) AS total_students
+FROM students_groups sg
+JOIN groups gr ON sg.group_id = gr.group_id
+JOIN subjects s ON gr.subject_id = s.subject_id
+JOIN degrees d ON s.degree_id = d.degree_id
+WHERE gr.academic_year = 2024
+GROUP BY d.degree_id, d.degree_name
+ORDER BY total_students DESC;
 
 -- Consulta 58: Máximo por grupo
-
+SELECT
+	st.first_name,
+   st.last_name,
+   MAX(g.grade_value) AS max_grade
+FROM v_students st
+JOIN grades g ON st.student_id = g.student_id
+GROUP BY st.student_id, st.first_name, st.last_name
+ORDER BY max_grade DESC;
 
 -- Consulta 59: Análisis de carga docente
-
+SELECT
+	pr.first_name, 
+   pr.last_name,
+   COUNT(*) AS total_groups
+FROM v_professors pr
+JOIN teaching_loads tl ON pr.professor_id = tl.professor_id
+GROUP BY pr.professor_id, pr.first_name, pr.last_name
+HAVING total_groups > 1;
 
 -- Consulta 60: Subconsulta con GROUP BY
+SELECT
+	s.subject_name,
+   d.degree_name
+FROM subjects s
+JOIN degrees d ON s.degree_id = d.degree_id
+WHERE d.degree_id IN (
+	SELECT s2.degree_id
+   FROM subjects s2
+   GROUP BY s2.degree_id
+   HAVING COUNT(*) > 15
+);
+
+
+
+
+
+
