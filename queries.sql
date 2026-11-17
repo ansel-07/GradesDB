@@ -225,9 +225,9 @@ FROM grades g
 WHERE g.student_id = 6;
 
 -- Consulta 21: IN con subconsulta
-SELECT ge.student_id
-FROM students_groups ge
-WHERE ge.group_id IN (
+SELECT DISTINCT sg.student_id
+FROM students_groups sg
+WHERE sg.group_id IN (
 	SELECT g.group_id
    FROM groups g
    WHERE g.academic_year = 2024
