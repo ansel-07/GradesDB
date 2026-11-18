@@ -34,16 +34,16 @@ DELIMITER ;
 DELIMITER //
 CREATE OR REPLACE PROCEDURE p_delete_all_data()
 BEGIN
-	DELETE FROM people;
-	DELETE FROM professors;
-	DELETE FROM students;
-	DELETE FROM degrees;
-	DELETE FROM subjects;
-	DELETE FROM groups;
+	DELETE FROM teaching_loads;
 	DELETE FROM students_groups;
 	DELETE FROM grades;
+	DELETE FROM groups;
 	DELETE FROM students_subjects;
-	DELETE FROM teaching_loads;
+	DELETE FROM professors;
+	DELETE FROM students;
+	DELETE FROM subjects;
+	DELETE FROM people;
+	DELETE FROM degrees;
 END //
 DELIMITER ;
 
