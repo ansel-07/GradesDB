@@ -4,6 +4,10 @@
 
 USE grades_db;
 
+DELIMITER //
+CREATE OR REPLACE PROCEDURE p_populate()
+BEGIN
+
  -- Primero eliminados todos los datos de tabla en el caso de que los hubiese y después insertamos los datos iniciales.
 SET FOREIGN_KEY_CHECKS = 0;
 DELETE FROM people;
@@ -187,3 +191,9 @@ INSERT INTO teaching_loads (professor_id, group_id, credits) VALUES
     (3, 2, 3.0),
     (5, 3, 1.5),
     (4, 3, 1.5);
+    
+    
+END //
+DELIMITER ;
+
+CALL p_populate();
