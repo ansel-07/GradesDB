@@ -29,7 +29,7 @@ SELECT @@in_transaction;
 SELECT * 
 FROM grades 
 WHERE exam_call = 'Extraordinaria'
-		AND student_id in (6, 7);
+		AND student_id IN (6, 7);
 
 -- =====================================================================
 -- Experiment 2: autocommit off
@@ -57,7 +57,7 @@ ROLLBACK;
 SELECT * 
 FROM grades 
 WHERE exam_call = 'Extraordinaria'
-		AND student_id in (6, 7);
+		AND student_id IN (6, 7);
 
 -- =====================================================================
 -- Experiment 3: START TRANSACTION commits the open transaction
@@ -85,29 +85,4 @@ WHERE exam_call = 'Extraordinaria'
 -- 6. Re-enable autocommit
 SET autocommit = 1;
 
-
--- =====================================================================
--- Experiment 4: errors inside a transaction (non-atomic script)
--- =====================================================================
-
--- 1. Reset data
-
--- 2. Open a transaction
-
--- 3. Insert three 'Extraordinaria' grades in group 1, one INSERT each (student 6: 7, student 7: 8, student 8: -1)
-
--- 4. Confirm the transaction
-
--- 5. Check 'Extraordinaria' grades of students 6, 7 and 8
-
-
--- =====================================================================
--- Experiment 5: atomic insertion with an anonymous block
--- =====================================================================
-
--- 1. Reset data
-
--- 2. Anonymous block: EXIT handler (ROLLBACK + RESIGNAL), transaction, the same three INSERTs, COMMIT
-
--- 3. Check 'Extraordinaria' grades of students 6, 7 and 8
 
