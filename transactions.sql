@@ -17,9 +17,9 @@ START TRANSACTION;
 SELECT @@in_transaction;
 
 -- 4. Insert two 'Extraordinaria' grades in group 1 (student 6: 7, student 7: 8)
-INSERT INTO grades (student_id, group_id, grade_value, exam_call, with_honors) VALUES
-    (6, 1, 7, 'Extraordinaria', 0),
-    (7, 1, 8, 'Extraordinaria', 0);
+INSERT INTO grades (student_id, group_id, grade_value, exam_call) VALUES
+    (6, 1, 7, 'Extraordinaria'),
+    (7, 1, 8, 'Extraordinaria');
 
 -- 5. Undo the transaction and check @@in_transaction
 ROLLBACK;
@@ -42,13 +42,13 @@ CALL p_populate();
 SET autocommit = 0;
 
 -- 3. Insert the same two grades (no START TRANSACTION); check @@in_transaction after the first INSERT
-INSERT INTO grades (student_id, group_id, grade_value, exam_call, with_honors) VALUES
-    (6, 1, 7, 'Extraordinaria', 0);
+INSERT INTO grades (student_id, group_id, grade_value, exam_call) VALUES
+    (6, 1, 7, 'Extraordinaria');
     
 SELECT @@in_transaction;
 
-INSERT INTO grades (student_id, group_id, grade_value, exam_call, with_honors) VALUES
-    (7, 1, 8, 'Extraordinaria', 0);
+INSERT INTO grades (student_id, group_id, grade_value, exam_call) VALUES
+    (7, 1, 8, 'Extraordinaria');
 
 -- 4. Undo the changes
 ROLLBACK;
@@ -67,8 +67,8 @@ WHERE exam_call = 'Extraordinaria'
 CALL p_populate();
 
 -- 2. Insert the 'Extraordinaria' grade of student 6 (group 1: 7)
-INSERT INTO grades (student_id, group_id, grade_value, exam_call, with_honors) VALUES
-    (6, 1, 7, 'Extraordinaria', 0);
+INSERT INTO grades (student_id, group_id, grade_value, exam_call) VALUES
+    (6, 1, 7, 'Extraordinaria');
 
 -- 3. START TRANSACTION
 START TRANSACTION;
@@ -84,5 +84,75 @@ WHERE exam_call = 'Extraordinaria'
 
 -- 6. Re-enable autocommit
 SET autocommit = 1;
+
+
+-- =====================================================================
+-- Experiment 4: errors inside a transaction (non-atomic script)
+-- =====================================================================
+
+-- 1. Reset data
+CALL p_populate();
+
+-- 2. Open a transaction
+START TRANSACTION;
+
+-- 3. Insert three 'Extraordinaria' grades in group 1, one INSERT each (student 6: 7, student 7: 8, student 8: -1)
+INSERT INTO grades (student_id, group_id, grade_value, exam_call) VALUES
+    (6, 1, 7, 'Extraordinaria');
+    
+INSERT INTO grades (student_id, group_id, grade_value, exam_call) VALUES
+    (7, 1, 8, 'Extraordinaria');
+    
+INSERT INTO grades (student_id, group_id, grade_value, exam_call) VALUES
+    (8, 1, -1, 'Extraordinaria');
+
+-- 4. Confirm the transaction
+COMMIT;
+
+-- 5. Check 'Extraordinaria' grades of students 6, 7 and 8
+SELECT * 
+FROM grades 
+WHERE exam_call = 'Extraordinaria'
+		AND student_id in (6, 7, 8);
+
+-- =====================================================================
+-- Experiment 5: atomic insertion with an anonymous block
+-- =====================================================================
+
+-- 1. Reset data
+CALL p_populate();
+
+-- 2. Anonymous block: EXIT handler (ROLLBACK + RESIGNAL), transaction, the same three INSERTs, COMMIT
+DELIMITER //
+BEGIN NOT ATOMIC
+	DECLARE EXIT HANDLER FOR SQLEXCEPTION
+   BEGIN
+   	ROLLBACK;
+      RESIGNAL;
+   END;
+   
+   START TRANSACTION;
+   
+   INSERT INTO grades (student_id, group_id, grade_value, exam_call) VALUES
+    	(6, 1, 7, 'Extraordinaria');
+    
+	INSERT INTO grades (student_id, group_id, grade_value, exam_call) VALUES
+    	(7, 1, 8, 'Extraordinaria');
+    
+	INSERT INTO grades (student_id, group_id, grade_value, exam_call) VALUES
+    	(8, 1, -1, 'Extraordinaria');
+      
+   COMMIT;
+   
+END //
+DELIMITER ;
+
+-- 3. Check 'Extraordinaria' grades of students 6, 7 and 8
+SELECT * 
+FROM grades 
+WHERE exam_call = 'Extraordinaria'
+		AND student_id in (6, 7, 8);
+
+
 
 
