@@ -267,14 +267,39 @@ SELECT * FROM grades WHERE grade_id = 3;
 -- =====================================================================
 
 -- 1. Reset data
+CALL p_populate();
 
 -- 2. Move student 6 from group 2 to group 3
+CALL p_transfer_student(6, 2, 3);
 
 -- 3. Check the groups of student 6
+SELECT * FROM students_groups WHERE student_id = 6;
+
+-- 4. Reset data
+CALL p_populate();
+
+-- 5. Move student 6 from group 2 to group 1 (already in group 1)
+CALL p_transfer_student(6, 2, 1);
+
+-- 6. Check the groups of student 6
+SELECT * FROM students_groups WHERE student_id = 6;
+
+
+
+
+-- =====================================================================
+-- Exercise 2: p_update_grade_with_history
+-- =====================================================================
+
+-- 1. Reset data
+
+-- 2. Change grade 3 to 6.5
+
+-- 3. Check grade 3 and its history
 
 -- 4. Reset data
 
--- 5. Move student 6 from group 2 to group 1 (already in group 1)
+-- 5. Change grade 3 to 11 (breaks RN11)
 
--- 6. Check the groups of student 6
+-- 6. Check grade 3 and its history
 

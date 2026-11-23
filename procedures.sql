@@ -219,4 +219,39 @@ DELIMITER ;
 
 
 -- p_transfer_student: moves a student from one group to another (DELETE old + INSERT new), atomic
+DELIMITER //
+CREATE OR REPLACE PROCEDURE p_transfer_student (
+	IN p_student_id INT,
+	IN p_old_group_id INT,
+	IN p_new_group_id INT
+)
+BEGIN
+	DECLARE EXIT HANDLER FOR SQLEXCEPTION
+   BEGIN
+   	ROLLBACK;
+      RESIGNAL;
+   END;
+   
+   START TRANSACTION;
+   
+   DELETE FROM students_groups sg
+   WHERE sg.student_id = p_student_id
+   		AND sg.group_id = p_old_group_id;
+         
+   INSERT INTO students_groups (student_id, group_id) VALUES
+   	(p_student_id, p_new_group_id);
+      
+   COMMIT;
+END //
+DELIMITER ;
+
+
+
+
+
+
+
+
+
+-- p_update_grade_with_history: updates a grade and stores the old value in grade_history, atomic
 
