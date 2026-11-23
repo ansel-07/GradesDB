@@ -319,26 +319,44 @@ SELECT * FROM grade_history WHERE grade_id = 3;
 -- =====================================================================
 
 -- 1. (A) Reset data
+CALL p_populate();
 
 -- 2. (B) Set the isolation level
+SET SESSION TRANSACTION ISOLATION LEVEL REPEATABLE READ;
+SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED;
 
 -- 3. (B) Open a transaction
+START TRANSACTION;
 
 -- 4. (A) Open a transaction
+START TRANSACTION;
 
 -- 5. (A) Set grade 1 to 9
+UPDATE grades g
+SET g.grade_value = 9
+WHERE g.grade_id = 1;
 
 -- 6. (B) Read grade 1 -> (a)
+SELECT * FROM grades WHERE grade_id = 1;
 
 -- 7. (A) Confirm the transaction
+COMMIT;
 
 -- 8. (B) Read grade 1 -> (b)
+SELECT * FROM grades WHERE grade_id = 1;
 
 -- 9. (B) Confirm the transaction
+COMMIT;
 
 -- 10. (B) Read grade 1 -> (c)
+SELECT * FROM grades WHERE grade_id = 1;
 
 -- Results:
--- REPEATABLE READ: (a) =      (b) =      (c) =
--- READ COMMITTED:  (a) =      (b) =      (c) =
-
+-- REPEATABLE READ: (a) = 9.8  (b) = 9.8  (c) = 9.0
+-- READ COMMITTED:  (a) = 9.8  (b) = 9.0  (c) = 9.0
+/*
+In REPEATABLE READ, connection B still sees the
+old value until they commit themselves.
+In READ COMMITTED, connection B receives the
+new value as soon as connection A commits.
+*/
