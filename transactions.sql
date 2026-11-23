@@ -210,18 +210,29 @@ SELECT * FROM subjects WHERE subject_name = 'Aprendizaje Automático';
 -- =====================================================================
 
 -- 1. (A) Reset data
+CALL p_populate();
 
 -- 2. (A and B) Check the connection id (must differ)
+SELECT CONNECTION_ID();
 
 -- 3. (B) Set the isolation level to REPEATABLE READ and open a transaction
+SET SESSION TRANSACTION ISOLATION LEVEL REPEATABLE READ;
+START TRANSACTION;
 
 -- 4. (B) Read grade 3
+SELECT * FROM grades WHERE grade_id = 3;
 
 -- 5. (A) Add 1 to grade 3
+UPDATE grades g
+SET g.grade_value = g.grade_value + 1
+WHERE g.grade_id = 3;
 
 -- 6. (B) Read grade 3
+SELECT * FROM grades WHERE grade_id = 3;
 
 -- 7. (B) Confirm the transaction and read grade 3
+COMMIT;
+SELECT * FROM grades WHERE grade_id = 3;
 
 
 -- =====================================================================
@@ -229,14 +240,41 @@ SELECT * FROM subjects WHERE subject_name = 'Aprendizaje Automático';
 -- =====================================================================
 
 -- 1. (A) Reset data
+CALL p_populate();
 
 -- 2. (B) Set the isolation level to READ COMMITTED and open a transaction
+SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED;
+START TRANSACTION;
 
 -- 3. (B) Read grade 3
+SELECT * FROM grades WHERE grade_id = 3;
 
 -- 4. (A) Add 1 to grade 3
+UPDATE grades g
+SET g.grade_value = g.grade_value + 1
+WHERE g.grade_id = 3;
 
 -- 5. (B) Read grade 3
+SELECT * FROM grades WHERE grade_id = 3;
 
 -- 6. (B) Confirm the transaction and read grade 3
+COMMIT;
+SELECT * FROM grades WHERE grade_id = 3;
+
+
+-- =====================================================================
+-- Exercise 1: p_transfer_student
+-- =====================================================================
+
+-- 1. Reset data
+
+-- 2. Move student 6 from group 2 to group 3
+
+-- 3. Check the groups of student 6
+
+-- 4. Reset data
+
+-- 5. Move student 6 from group 2 to group 1 (already in group 1)
+
+-- 6. Check the groups of student 6
 

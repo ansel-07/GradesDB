@@ -217,3 +217,6 @@ DELIMITER ;
 
 
 
+
+-- p_transfer_student: moves a student from one group to another (DELETE old + INSERT new), atomic
+
