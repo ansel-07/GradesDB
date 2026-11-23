@@ -160,3 +160,60 @@ DELIMITER ;
 
 
 
+-- =====================================================================
+-- L7: transactions
+-- =====================================================================
+
+-- p_insert_degree_subject: inserts a degree and one subject of that degree (no transaction)
+DELIMITER //
+CREATE OR REPLACE PROCEDURE p_insert_degree_subject (
+	IN p_degree_name VARCHAR(80),
+   IN p_degree_years TINYINT,
+   IN p_subject_name VARCHAR(120),
+   IN p_subject_acronym VARCHAR(12),
+   IN p_subject_credits TINYINT,
+   IN p_subject_course TINYINT,
+   IN p_subject_type VARCHAR(30)
+)
+BEGIN
+   INSERT INTO degrees (degree_name, duration_years) VALUES
+   	(p_degree_name, p_degree_years);
+      
+   INSERT INTO subjects (degree_id, subject_name, acronym, credits, course, subject_type) VALUES
+   	(LAST_INSERT_ID(), p_subject_name, p_subject_acronym, p_subject_credits, p_subject_course, p_subject_type);
+END //
+DELIMITER ;
+
+-- p_insert_degree_subject_transactional: same insertions, atomic (EXIT handler + transaction + CALL)
+DELIMITER //
+CREATE OR REPLACE PROCEDURE p_insert_degree_subject_transactional (
+	IN p_degree_name VARCHAR(80),
+	IN p_degree_years TINYINT,
+	IN p_subject_name VARCHAR(120),
+	IN p_subject_acronym VARCHAR(12),
+	IN p_subject_credits TINYINT,
+	IN p_subject_course TINYINT,
+	IN p_subject_type VARCHAR(30)
+)
+BEGIN
+	DECLARE EXIT HANDLER FOR SQLEXCEPTION
+	BEGIN
+   	ROLLBACK;
+      RESIGNAL;   		
+   END;
+      
+	START TRANSACTION;
+   
+   CALL p_insert_degree_subject(p_degree_name, p_degree_years, p_subject_name, p_subject_acronym, p_subject_credits, p_subject_course, p_subject_type);
+   
+   COMMIT;
+   
+END //
+DELIMITER ;
+
+
+
+
+
+
+

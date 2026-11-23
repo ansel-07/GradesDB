@@ -161,31 +161,82 @@ WHERE exam_call = 'Extraordinaria'
 -- =====================================================================
 
 -- 1. Reset data
+CALL p_populate();
 
 -- 2. Call with valid data
+CALL p_insert_degree_subject('Grado en Inteligencia Artificial', 4, 'Aprendizaje Automático', 'AA', 6, 3, 'Obligatoria');
 
 -- 3. Check the new degree and its subjects
+SELECT * FROM degrees WHERE degree_name = 'Grado en Inteligencia Artificial';
+SELECT * FROM subjects WHERE subject_name = 'Aprendizaje Automático';
 
 -- 4. Reset data
+CALL p_populate();
 
 -- 5. Call with a repeated acronym ('FP')
+CALL p_insert_degree_subject('Grado en Inteligencia Artificial', 4, 'Aprendizaje Automático', 'FP', 6, 3, 'Obligatoria');
 
 -- 6. Check the new degree and its subjects
-
+SELECT * FROM degrees WHERE degree_name = 'Grado en Inteligencia Artificial';
+SELECT * FROM subjects WHERE subject_name = 'Aprendizaje Automático';
 
 -- =====================================================================
 -- Experiment 7: p_insert_degree_subject_transactional
 -- =====================================================================
 
 -- 1. Reset data
+CALL p_populate();
 
 -- 2. Call with valid data
+CALL p_insert_degree_subject_transactional('Grado en Inteligencia Artificial', 4, 'Aprendizaje Automático', 'AA', 6, 3, 'Obligatoria');
 
 -- 3. Check the new degree and its subjects
+SELECT * FROM degrees WHERE degree_name = 'Grado en Inteligencia Artificial';
+SELECT * FROM subjects WHERE subject_name = 'Aprendizaje Automático';
 
 -- 4. Reset data
+CALL p_populate();
 
 -- 5. Call with a repeated acronym ('FP')
+CALL p_insert_degree_subject_transactional('Grado en Inteligencia Artificial', 4, 'Aprendizaje Automático', 'FP', 6, 3, 'Obligatoria');
 
 -- 6. Check the new degree and its subjects
+SELECT * FROM degrees WHERE degree_name = 'Grado en Inteligencia Artificial';
+SELECT * FROM subjects WHERE subject_name = 'Aprendizaje Automático';
+
+
+-- =====================================================================
+-- Experiment 8: concurrency with REPEATABLE READ (two HeidiSQL connections: A and B)
+-- =====================================================================
+
+-- 1. (A) Reset data
+
+-- 2. (A and B) Check the connection id (must differ)
+
+-- 3. (B) Set the isolation level to REPEATABLE READ and open a transaction
+
+-- 4. (B) Read grade 3
+
+-- 5. (A) Add 1 to grade 3
+
+-- 6. (B) Read grade 3
+
+-- 7. (B) Confirm the transaction and read grade 3
+
+
+-- =====================================================================
+-- Experiment 9: concurrency with READ COMMITTED
+-- =====================================================================
+
+-- 1. (A) Reset data
+
+-- 2. (B) Set the isolation level to READ COMMITTED and open a transaction
+
+-- 3. (B) Read grade 3
+
+-- 4. (A) Add 1 to grade 3
+
+-- 5. (B) Read grade 3
+
+-- 6. (B) Confirm the transaction and read grade 3
 
