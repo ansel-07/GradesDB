@@ -17,6 +17,7 @@ DROP TABLE IF EXISTS students_groups;
 DROP TABLE IF EXISTS grades;
 DROP TABLE IF EXISTS students_subjects;
 DROP TABLE IF EXISTS teaching_loads;
+DROP TABLE IF EXISTS grade_history;
 SET FOREIGN_KEY_CHECKS = 1;
 
 CREATE TABLE people (
@@ -117,6 +118,16 @@ CREATE TABLE teaching_loads (
    CONSTRAINT uq_teaching_loads UNIQUE (professor_id, group_id)
 );
 
+CREATE TABLE grade_history (
+	grade_history_id INT AUTO_INCREMENT,
+   grade_id INT NOT NULL,
+   old_value DECIMAL(4,2) NOT NULL,
+   new_value DECIMAL(4,2) NOT NULL,
+   change_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+   PRIMARY KEY (grade_history_id),
+   FOREIGN KEY (grade_id) REFERENCES grades(grade_id)
+);
+
 
 
 -- LABORATORIO 2
@@ -178,3 +189,6 @@ ALTER TABLE grades
    ADD CONSTRAINT ck_grades_rn01_with_honors CHECK (with_honors = 0 OR grade_value >= 9),
    ADD CONSTRAINT ck_grades_exam_call CHECK (exam_call IN ('Primera', 'Segunda', 'Tercera', 'Extraordinaria'));
    
+
+
+

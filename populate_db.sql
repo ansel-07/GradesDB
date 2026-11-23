@@ -20,6 +20,7 @@ DELETE FROM students_groups;
 DELETE FROM grades;
 DELETE FROM students_subjects;
 DELETE FROM teaching_loads;
+DELETE FROM grade_history;
 SET FOREIGN_KEY_CHECKS = 1;
 	
 INSERT INTO people (person_id, dni, first_name, last_name, age, email) VALUES

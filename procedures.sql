@@ -34,6 +34,7 @@ DELIMITER ;
 DELIMITER //
 CREATE OR REPLACE PROCEDURE p_delete_all_data()
 BEGIN
+	DELETE FROM grade_history;
 	DELETE FROM teaching_loads;
 	DELETE FROM students_groups;
 	DELETE FROM grades;
@@ -245,13 +246,39 @@ BEGIN
 END //
 DELIMITER ;
 
-
-
-
-
-
-
-
-
 -- p_update_grade_with_history: updates a grade and stores the old value in grade_history, atomic
+DELIMITER //
+CREATE OR REPLACE PROCEDURE p_update_grade_with_history (
+	IN p_grade_id INT,
+   IN p_new_value DECIMAL(4,2)
+)
+BEGIN
+	DECLARE v_old_value DECIMAL(4,2);
+
+	DECLARE EXIT HANDLER FOR SQLEXCEPTION
+   BEGIN
+   	ROLLBACK;
+      RESIGNAL;
+   END;
+   
+   START TRANSACTION;
+   
+   SELECT g.grade_value INTO v_old_value
+   FROM grades g 
+   WHERE g.grade_id = p_grade_id;
+   
+   INSERT INTO grade_history (grade_id, old_value, new_value) VALUES
+   	(p_grade_id, v_old_value, p_new_value);
+      
+   UPDATE grades g
+   SET g.grade_value = p_new_value
+   WHERE g.grade_id = p_grade_id;
+   
+   COMMIT;
+END //
+DELIMITER ;
+
+
+
+
 

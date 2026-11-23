@@ -292,14 +292,53 @@ SELECT * FROM students_groups WHERE student_id = 6;
 -- =====================================================================
 
 -- 1. Reset data
+CALL p_populate();
 
 -- 2. Change grade 3 to 6.5
+CALL p_update_grade_with_history(3, 6.5);
 
 -- 3. Check grade 3 and its history
+SELECT * FROM grades WHERE grade_id = 3;
+SELECT * FROM grade_history WHERE grade_id = 3;
 
 -- 4. Reset data
+CALL p_populate();
 
 -- 5. Change grade 3 to 11 (breaks RN11)
+CALL p_update_grade_with_history(3, 11);
 
 -- 6. Check grade 3 and its history
+SELECT * FROM grades WHERE grade_id = 3;
+SELECT * FROM grade_history WHERE grade_id = 3;
+
+
+
+-- =====================================================================
+-- Exercise 3: predict and check what B reads (two connections: A and B)
+-- Run it twice: first with REPEATABLE READ, then with READ COMMITTED
+-- =====================================================================
+
+-- 1. (A) Reset data
+
+-- 2. (B) Set the isolation level
+
+-- 3. (B) Open a transaction
+
+-- 4. (A) Open a transaction
+
+-- 5. (A) Set grade 1 to 9
+
+-- 6. (B) Read grade 1 -> (a)
+
+-- 7. (A) Confirm the transaction
+
+-- 8. (B) Read grade 1 -> (b)
+
+-- 9. (B) Confirm the transaction
+
+-- 10. (B) Read grade 1 -> (c)
+
+-- Results:
+-- REPEATABLE READ: (a) =      (b) =      (c) =
+-- READ COMMITTED:  (a) =      (b) =      (c) =
 
