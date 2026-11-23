@@ -113,7 +113,7 @@ COMMIT;
 SELECT * 
 FROM grades 
 WHERE exam_call = 'Extraordinaria'
-		AND student_id in (6, 7, 8);
+		AND student_id IN (6, 7, 8);
 
 -- =====================================================================
 -- Experiment 5: atomic insertion with an anonymous block
@@ -151,8 +151,41 @@ DELIMITER ;
 SELECT * 
 FROM grades 
 WHERE exam_call = 'Extraordinaria'
-		AND student_id in (6, 7, 8);
+		AND student_id IN (6, 7, 8);
 
 
 
+
+-- =====================================================================
+-- Experiment 6: p_insert_degree_subject (non-transactional)
+-- =====================================================================
+
+-- 1. Reset data
+
+-- 2. Call with valid data
+
+-- 3. Check the new degree and its subjects
+
+-- 4. Reset data
+
+-- 5. Call with a repeated acronym ('FP')
+
+-- 6. Check the new degree and its subjects
+
+
+-- =====================================================================
+-- Experiment 7: p_insert_degree_subject_transactional
+-- =====================================================================
+
+-- 1. Reset data
+
+-- 2. Call with valid data
+
+-- 3. Check the new degree and its subjects
+
+-- 4. Reset data
+
+-- 5. Call with a repeated acronym ('FP')
+
+-- 6. Check the new degree and its subjects
 
